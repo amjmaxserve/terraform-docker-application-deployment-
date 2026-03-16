@@ -68,51 +68,56 @@ Loki --> Grafana
 
 ## Project Structure
 
-terraform-3tier/
-│
-├── app/
-│ ├── backend/
-│ │ ├── Dockerfile
-│ │ ├── package.json
-│ │ └── server.js
-│ │
-│ └── frontend/
-│ ├── Dockerfile
-│ ├── package.json
-│ ├── public/
-│ │ └── index.html
-│ └── src/
-│ ├── App.js
-│ └── index.js
-│
-├── monitoring/
-│ ├── prometheus.yml
-│ ├── loki-config.yml
-│ ├── promtail-config.yml
-│ ├── grafana-data/
-│ └── loki-data/
-│
-└── terraform/
-├── provider.tf
-├── variables.tf
-├── main.tf
-├── backend.tf
-├── outputs.tf
-├── grafana_datasource.tf
-├── grafana_dashboards.tf
-├── grafana_wait.tf
-│
-└── modules/
-├── network/
-│ └── main.tf
-├── postgres/
-│ └── main.tf
-├── backend/
-│ └── main.tf
-├── frontend/
-│ └── main.tf
-└── observability/
-└── main.tf
+.
+├── app
+│   ├── backend
+│   │   ├── Dockerfile
+│   │   ├── package.json
+│   │   └── server.js
+│   └── frontend
+│       ├── Dockerfile
+│       ├── package.json
+│       ├── public
+│       └── src
+├── monitoring
+│   ├── grafana-data
+│   │   ├── csv
+│   │   ├── grafana.db
+│   │   ├── pdf
+│   │   ├── plugins
+│   │   ├── png
+│   │   └── unified-search
+│   ├── loki-config.yml
+│   ├── loki-data
+│   │   ├── boltdb-shipper-active
+│   │   ├── boltdb-shipper-cache
+│   │   ├── chunks
+│   │   ├── compactor
+│   │   └── wal
+│   ├── prometheus.yml
+│   └── promtail-config.yml
+├── README.md
+└── terraform
+    ├── backend.tf
+    ├── grafana-dashboards
+    │   ├── docker-dashboard.json
+    │   ├── node-dashboard.json
+    │   └── postgres-dashboard.json
+    ├── grafana_dashboards.tf
+    ├── grafana_datasource.tf
+    ├── grafana_wait.tf
+    ├── main.tf
+    ├── modules
+    │   ├── backend
+    │   ├── frontend
+    │   ├── network
+    │   ├── observability
+    │   └── postgres
+    ├── outputs.tf
+    ├── provider.tf
+    └── variables.tf
+
+27 directories, 21 files
 
 --- 
 
