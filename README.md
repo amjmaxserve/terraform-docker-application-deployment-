@@ -66,32 +66,33 @@ Loki --> Grafana
 ---
 
 
-# Project Structure
+## Project Structure
 
 terraform-3tier/
-
-app/
-├── backend/
-│   ├── Dockerfile
-│   ├── package.json
-│   └── server.js
 │
-└── frontend/
-    ├── Dockerfile
-    ├── package.json
-    ├── public/index.html
-    └── src/
-        ├── App.js
-        └── index.js
-
-monitoring/
-├── prometheus.yml
-├── loki-config.yml
-├── promtail-config.yml
-├── grafana-data/
-└── loki-data/
-
-terraform/
+├── app/
+│ ├── backend/
+│ │ ├── Dockerfile
+│ │ ├── package.json
+│ │ └── server.js
+│ │
+│ └── frontend/
+│ ├── Dockerfile
+│ ├── package.json
+│ ├── public/
+│ │ └── index.html
+│ └── src/
+│ ├── App.js
+│ └── index.js
+│
+├── monitoring/
+│ ├── prometheus.yml
+│ ├── loki-config.yml
+│ ├── promtail-config.yml
+│ ├── grafana-data/
+│ └── loki-data/
+│
+└── terraform/
 ├── provider.tf
 ├── variables.tf
 ├── main.tf
@@ -100,19 +101,18 @@ terraform/
 ├── grafana_datasource.tf
 ├── grafana_dashboards.tf
 ├── grafana_wait.tf
-
-modules/
+│
+└── modules/
 ├── network/
-│   └── main.tf
+│ └── main.tf
 ├── postgres/
-│   └── main.tf
+│ └── main.tf
 ├── backend/
-│   └── main.tf
+│ └── main.tf
 ├── frontend/
-│   └── main.tf
+│ └── main.tf
 └── observability/
-    └── main.tf
-
+└── main.tf
 
 --- 
 
