@@ -1,0 +1,16 @@
+{
+  "title": "Docker Containers",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Container CPU Usage",
+      "targets": [
+        {
+          "expr": "rate(container_cpu_usage_seconds_total[1m])"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 16,
+  "version": 1
+}

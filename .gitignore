@@ -1,1 +1,28 @@
-/monitoring/grafana-data/
+# Loki runtime data
+monitoring/loki-data/
+
+# WAL files
+monitoring/loki-data/wal/
+
+# BoltDB shipper data
+monitoring/loki-data/boltdb-shipper-active/
+
+# General Loki temp files
+*.wal
+*.db
+
+
+
+# Grafana runtime data
+monitoring/grafana-data/
+
+# Grafana generated files
+monitoring/grafana-data/csv/
+monitoring/grafana-data/pdf/
+monitoring/grafana-data/png/
+monitoring/grafana-data/unified-search/
+
+# General runtime files
+*.log
+*.db
+*.wal

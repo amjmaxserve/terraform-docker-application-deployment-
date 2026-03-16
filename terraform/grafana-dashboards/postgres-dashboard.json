@@ -1,0 +1,16 @@
+{
+  "title": "PostgreSQL Metrics",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Postgres Connections",
+      "targets": [
+        {
+          "expr": "pg_stat_database_numbackends"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 16,
+  "version": 1
+}
