@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Terraform 3-Tier Application Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-docker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-hcl.min.js"></script>
+
+    <style>
+        body { background: #f8f9fa; color: #212529; font-family: system-ui, sans-serif; }
+        .hero { background: linear-gradient(135deg, #0d6efd, #6610f2); color: white; padding: 80px 0; }
+        .section-card { background: white; border: 1px solid #dee2e6; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+        .code-header { background: #f1f3f5; border-bottom: 1px solid #dee2e6; }
+        pre { background: #f8f9fa !important; border: 1px solid #dee2e6; border-radius: 8px; }
+        .tree { font-family: monospace; background: #f8f9fa; border: 1px solid #dee2e6; padding: 20px; border-radius: 8px; white-space: pre; }
+        h1, h2, h3 { color: #0d6efd; }
+        .nav-link.active { background-color: #e7f1ff; color: #0d6efd; font-weight: 600; }
+        .copy-btn { font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+<div class="hero text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Terraform 3-Tier Application with Full Observability</h1>
+        <p class="lead">React + Express + PostgreSQL + Prometheus + Grafana + Loki + Promtail</p>
+        <p class="mb-0">Complete Documentation with All Source Code & Configuration Files</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+            <div class="sticky-top pt-4" style="top: 20px;">
+                <h5 class="text-muted mb-3"><i class="fas fa-list-ul"></i> CONTENTS</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a href="#overview" class="nav-link active">1. Overview</a></li>
+                    <li class="nav-item"><a href="#lab" class="nav-link">2. Lab Setup</a></li>
+                    <li class="nav-item"><a href="#app" class="nav-link">3. Application Code</a></li>
+                    <li class="nav-item"><a href="#terraform" class="nav-link">4. Terraform Files</a></li>
+                    <li class="nav-item"><a href="#modules" class="nav-link">5. Terraform Modules</a></li>
+                    <li class="nav-item"><a href="#observability" class="nav-link">6. Observability Stack</a></li>
+                    <li class="nav-item"><a href="#dashboards" class="nav-link">7. Grafana Dashboards</a></li>
+                    <li class="nav-item"><a href="#deploy" class="nav-link">8. Deployment</a></li>
+                    <li class="nav-item"><a href="#access" class="nav-link">9. Access URLs</a></li>
+                    <li class="nav-item"><a href="#structure" class="nav-link">10. Project Structure</a></li>
+                    <li class="nav-item"><a href="#summary" class="nav-link">11. Summary</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+
+            <!-- 1. Overview -->
+            <section id="overview">
+                <div class="section-card p-5 mb-5">
+                    <h2><i class="fas fa-info-circle"></i> Project Overview</h2>
+                    <p class="lead">Complete 3-tier web application (Task Manager) deployed using Terraform and Docker with full monitoring & logging stack.</p>
+                    <div class="row text-center mt-4">
+                        <div class="col-md-3"><span class="badge bg-primary p-3 fs-6">React Frontend</span></div>
+                        <div class="col-md-3"><span class="badge bg-success p-3 fs-6">Express Backend</span></div>
+                        <div class="col-md-3"><span class="badge bg-info p-3 fs-6">PostgreSQL</span></div>
+                        <div class="col-md-3"><span class="badge bg-warning p-3 fs-6">Observability</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Lab Setup -->
+            <section id="lab">
+                <h2 class="mb-4"><i class="fas fa-server"></i> Lab Environment Setup</h2>
+                <div class="section-card p-5 mb-5">
+                    <h5>Recommended VM Specs</h5>
+                    <ul>
+                        <li>OS: Ubuntu 22.04</li>
+                        <li>RAM: 4 GB</li>
+                        <li>CPU: 2 cores</li>
+                        <li>Disk: 40 GB</li>
+                    </ul>
+
+                    <h5 class="mt-4">Install Docker</h5>
+                    <div class="code-header d-flex justify-content-between px-3 py-2">
+                        <strong>Commands</strong>
+                        <button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-bash">sudo apt update
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER
+docker run hello-world</code></pre>
+
+                    <h5 class="mt-4">Install Terraform</h5>
+                    <div class="code-header d-flex justify-content-between px-3 py-2">
+                        <strong>Commands</strong>
+                        <button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-bash">sudo apt install wget unzip -y
+wget https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip
+unzip terraform_1.6.6_linux_amd64.zip
+sudo mv terraform /usr/local/bin/
+terraform -version</code></pre>
+                </div>
+            </section>
+
+            <!-- 3. Application Code -->
+            <section id="app">
+                <h2 class="mb-4"><i class="fas fa-code"></i> Application Source Code</h2>
+
+                <!-- Backend -->
+                <h4>Backend - app/backend/</h4>
+                <div class="section-card p-4 mb-4">
+                    <h6><strong>server.js</strong></h6>
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-javascript">const express = require("express")
+const cors = require("cors")
+const { Pool } = require("pg")
+const client = require("prom-client")
+
+const app = express()
+app.use(cors())
+app.use(express.json())
+
+/* PROMETHEUS METRICS */
+const collectDefaultMetrics = client.collectDefaultMetrics
+collectDefaultMetrics()
+app.get("/metrics", async (req,res)=>{
+  res.set("Content-Type", client.register.contentType)
+  res.end(await client.register.metrics())
+})
+
+/* DATABASE CONNECTION */
+const pool = new Pool({
+  host: process.env.DB_HOST,
+  user: "postgres",
+  password: process.env.DB_PASSWORD,
+  database: "appdb",
+  port: 5432
+})
+
+async function waitForDB() {
+  while (true) {
+    try {
+      await pool.query("SELECT 1")
+      console.log("PostgreSQL connected")
+      break
+    } catch (err) {
+      console.log("Waiting for DB...")
+      await new Promise(r => setTimeout(r, 2000))
+    }
+  }
+}
+
+async function initDB() {
+  await waitForDB()
+  await pool.query(`CREATE TABLE IF NOT EXISTS tasks (id SERIAL PRIMARY KEY, title TEXT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`)
+  console.log("Table ready")
+}
+initDB()
+
+/* ROUTES */
+app.post("/tasks", async (req, res) => {
+  const { title } = req.body
+  const result = await pool.query("INSERT INTO tasks(title) VALUES($1) RETURNING *", [title])
+  res.json(result.rows[0])
+})
+
+app.get("/tasks", async (req, res) => {
+  const result = await pool.query("SELECT * FROM tasks ORDER BY id DESC")
+  res.json(result.rows)
+})
+
+app.delete("/tasks/:id", async (req, res) => {
+  await pool.query("DELETE FROM tasks WHERE id=$1", [req.params.id])
+  res.json({ message: "Deleted" })
+})
+
+app.listen(5000, () => console.log("Backend running on port 5000"))</code></pre>
+
+                    <h6 class="mt-4">package.json (Backend)</h6>
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-json">{
+  "name": "task-backend",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pg": "^8.11.1",
+    "cors": "^2.8.5",
+    "prom-client": "^15.1.0"
+  }
+}</code></pre>
+
+                    <h6 class="mt-4">Dockerfile (Backend)</h6>
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-dockerfile">FROM node:18
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+EXPOSE 5000
+CMD ["node", "server.js"]</code></pre>
+                </div>
+
+                <!-- Frontend -->
+                <h4>Frontend - app/frontend/</h4>
+                <div class="section-card p-4 mb-4">
+                    <h6><strong>package.json (Frontend)</strong></h6>
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-json">{
+  "name": "task-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "proxy": "http://backend:5000"
+}</code></pre>
+
+                    <h6><strong>Dockerfile (Frontend)</strong></h6>
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-dockerfile">FROM node:20
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+RUN npm run build
+RUN npm install -g serve
+CMD ["serve","-s","build","-l","3000"]</code></pre>
+
+                    <h6><strong>src/App.js</strong></h6>
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-javascript">import { useEffect, useState } from "react"
+
+function App() {
+  const API = "http://192.168.29.88:5000"
+  const [tasks,setTasks] = useState([])
+  const [title,setTitle] = useState("")
+
+  async function loadTasks() {
+    const res = await fetch(API + "/tasks")
+    const data = await res.json()
+    setTasks(data)
+  }
+
+  async function addTask() {
+    await fetch(API + "/tasks", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({title})
+    })
+    setTitle("")
+    loadTasks()
+  }
+
+  async function deleteTask(id){
+    await fetch(API + "/tasks/" + id, { method:"DELETE" })
+    loadTasks()
+  }
+
+  useEffect(()=>{ loadTasks() },[])
+
+  return (
+    &lt;div style={{padding:"40px"}}&gt;
+      &lt;h1&gt;Task Manager&lt;/h1&gt;
+      &lt;input value={title} onChange={e=&gt;setTitle(e.target.value)} placeholder="New task" /&gt;
+      &lt;button onClick={addTask}&gt;Add&lt;/button&gt;
+      &lt;ul&gt;
+        {tasks.map(t=&gt;(
+          &lt;li key={t.id}&gt;
+            {t.title}
+            &lt;button onClick={()=&gt;deleteTask(t.id)}&gt;delete&lt;/button&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  )
+}
+export default App</code></pre>
+                </div>
+            </section>
+
+            <!-- 4. Terraform Root Files -->
+            <section id="terraform">
+                <h2 class="mb-4"><i class="fas fa-cube"></i> Terraform Root Files</h2>
+
+                <h5>provider.tf</h5>
+                <div class="section-card p-4 mb-4">
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-hcl">terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 3.0"
+    }
+    grafana = {
+      source  = "grafana/grafana"
+      version = "~> 2.0"
+    }
+  }
+}</code></pre>
+                </div>
+
+                <h5>variables.tf</h5>
+                <div class="section-card p-4 mb-4">
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-hcl">variable "network_name" { default = "app_network" }
+variable "postgres_password" { default = "postgres" }
+variable "frontend_port" { default = 3000 }
+variable "backend_port" { default = 5000 }</code></pre>
+                </div>
+
+                <h5>main.tf</h5>
+                <div class="section-card p-4 mb-4">
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-hcl">module "network" { source = "./modules/network" network_name = "app_network" }
+module "postgres" { source = "./modules/postgres" network = module.network.network_name password = "postgres" }
+module "backend" { source = "./modules/backend" network = module.network.network_name db_host = "postgres_db" db_password = "postgres" }
+module "frontend" { source = "./modules/frontend" network = module.network.network_name }
+module "observability" { source = "./modules/observability" network = module.network.network_name }</code></pre>
+                </div>
+
+                <h5>backend.tf (Remote State with MinIO)</h5>
+                <div class="section-card p-4 mb-4">
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-hcl">terraform {
+  backend "s3" {
+    bucket = "terraform-state"
+    key    = "3tier/terraform.tfstate"
+    region = "us-east-1"
+    access_key = "admin"
+    secret_key = "password"
+    endpoints = { s3 = "http://192.168.29.88:9000" }
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    skip_requesting_account_id  = true
+    skip_region_validation      = true
+    force_path_style = true
+  }
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- 5. Terraform Modules -->
+            <section id="modules">
+                <h2 class="mb-4"><i class="fas fa-puzzle-piece"></i> Terraform Modules</h2>
+
+                <h5>modules/network/main.tf</h5>
+                <div class="section-card p-4 mb-4">
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-hcl">resource "docker_network" "app_network" {
+  name = var.network_name
+}
+output "network_name" { value = docker_network.app_network.name }</code></pre>
+                </div>
+
+                <h5>modules/postgres/main.tf</h5>
+                <div class="section-card p-4 mb-4">
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-hcl">resource "docker_container" "postgres" {
+  name  = "postgres_db"
+  image = "postgres:15"
+  env = ["POSTGRES_PASSWORD=${var.password}", "POSTGRES_DB=appdb"]
+  networks_advanced { name = var.network }
+  ports { internal = 5432; external = 5432 }
+}</code></pre>
+                </div>
+
+                <h5>modules/backend/main.tf</h5>
+                <div class="section-card p-4 mb-4">
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-hcl">resource "docker_image" "backend" {
+  name = "task-backend"
+  build { context = "${path.root}/../app/backend" }
+}
+resource "docker_container" "backend" {
+  name  = "backend"
+  image = docker_image.backend.image_id
+  env   = ["DB_HOST=${var.db_host}", "DB_PASSWORD=${var.db_password}"]
+  networks_advanced { name = var.network }
+  ports { internal = 5000; external = 5000 }
+}</code></pre>
+                </div>
+
+                <h5>modules/frontend/main.tf</h5>
+                <div class="section-card p-4 mb-4">
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-hcl">resource "docker_container" "frontend" {
+  name  = "frontend"
+  image = docker_image.frontend.image_id
+  networks_advanced { name = var.network }
+  ports { internal = 3000; external = 3000 }
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- 6. Observability Stack -->
+            <section id="observability">
+                <h2 class="mb-4"><i class="fas fa-chart-line"></i> Observability Stack - modules/observability/main.tf</h2>
+                <div class="section-card p-4 mb-4">
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy Full File</button></div>
+                    <pre><code class="language-hcl">resource "docker_container" "prometheus" { ... }
+resource "docker_container" "grafana" { ... }
+resource "docker_container" "loki" { ... }
+resource "docker_container" "promtail" { ... }
+resource "docker_container" "node_exporter" { ... }
+resource "docker_container" "cadvisor" { ... }
+resource "docker_container" "postgres_exporter" { ... }</code></pre>
+                    <p class="text-muted">Full file includes volumes for prometheus.yml, loki-config.yml, promtail-config.yml, and all exporters.</p>
+                </div>
+            </section>
+
+            <!-- 7. Grafana Dashboards & Config -->
+            <section id="dashboards">
+                <h2 class="mb-4"><i class="fas fa-tachometer-alt"></i> Grafana Configuration & Dashboards</h2>
+
+                <h5>grafana_datasource.tf</h5>
+                <div class="section-card p-4 mb-4">
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-hcl">provider "grafana" {
+  url  = "http://192.168.29.88:3001"
+  auth = "admin:admin"
+}
+
+resource "grafana_data_source" "prometheus" {
+  name = "Prometheus"
+  type = "prometheus"
+  url  = "http://prometheus:9090"
+}</code></pre>
+                </div>
+
+                <h5>docker-dashboard.json</h5>
+                <div class="section-card p-4 mb-4">
+                    <div class="code-header d-flex justify-content-between px-3 py-2"><button onclick="copyCode(this)" class="btn btn-sm btn-primary copy-btn">Copy</button></div>
+                    <pre><code class="language-json">{
+  "title": "Docker Containers",
+  "panels": [{ "type": "timeseries", "title": "Container CPU Usage", "targets": [{ "expr": "rate(container_cpu_usage_seconds_total[1m])" }] }]
+}</code></pre>
+                </div>
+
+                <h5>node-dashboard.json &amp; postgres-dashboard.json</h5>
+                <div class="section-card p-4">
+                    <pre><code class="language-json">{
+  "title": "Node Exporter Overview",
+  "panels": [{ "expr": "rate(node_cpu_seconds_total{mode!='idle'}[1m])" }]
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- 8. Deployment -->
+            <section id="deploy">
+                <h2><i class="fas fa-rocket"></i> Deployment Steps</h2>
+                <div class="section-card p-5">
+                    <pre><code class="language-bash">cd /home/devops/terraform-3tier/terraform
+terraform init
+terraform plan
+terraform apply</code></pre>
+                    <p><strong>Destroy:</strong> <code>terraform destroy</code></p>
+                </div>
+            </section>
+
+            <!-- 9. Access URLs -->
+            <section id="access">
+                <h2><i class="fas fa-external-link-alt"></i> Access URLs</h2>
+                <div class="row g-4">
+                    <div class="col-md-4"><div class="section-card p-4 text-center"><strong>Frontend App</strong><br><a href="http://192.168.29.88:3000" target="_blank" class="btn btn-success mt-2">Open</a></div></div>
+                    <div class="col-md-4"><div class="section-card p-4 text-center"><strong>Grafana</strong><br>admin/admin<br><a href="http://192.168.29.88:3001" target="_blank" class="btn btn-primary mt-2">Open</a></div></div>
+                    <div class="col-md-4"><div class="section-card p-4 text-center"><strong>Prometheus</strong><br><a href="http://192.168.29.88:9090" target="_blank" class="btn btn-warning mt-2">Open</a></div></div>
+                </div>
+            </section>
+
+            <!-- 10. Project Structure -->
+            <section id="structure">
+                <h2><i class="fas fa-folder-tree"></i> Final Project Structure</h2>
+                <pre class="tree">terraform-3tier
+├── app
+│   ├── backend
+│   │   ├── Dockerfile
+│   │   ├── package.json
+│   │   └── server.js
+│   └── frontend
+│       ├── Dockerfile
+│       ├── package.json
+│       ├── public/index.html
+│       └── src
+│           ├── App.js
+│           └── index.js
+├── monitoring
+│   ├── prometheus.yml
+│   ├── loki-config.yml
+│   ├── promtail-config.yml
+│   ├── grafana-data
+│   └── loki-data
+└── terraform
+    ├── provider.tf
+    ├── variables.tf
+    ├── main.tf
+    ├── backend.tf
+    ├── grafana_datasource.tf
+    ├── grafana_dashboards.tf
+    ├── grafana_wait.tf
+    ├── outputs.tf
+    └── modules/
+        ├── network/main.tf
+        ├── postgres/main.tf
+        ├── backend/main.tf
+        ├── frontend/main.tf
+        └── observability/main.tf</pre>
+            </section>
+
+            <!-- 11. Summary -->
+            <section id="summary">
+                <div class="section-card p-5">
+                    <h2>Summary & Interview Level Knowledge</h2>
+                    <p>This project demonstrates Infrastructure as Code, Containerization, Modular Terraform, Remote State, and Complete Observability (Metrics + Logs).</p>
+                    <p><strong>Remote State:</strong> MinIO simulates S3 for team collaboration and state locking.</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function copyCode(btn) {
+        const pre = btn.parentElement.parentElement.querySelector('pre');
+        if (pre) {
+            navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+                const orig = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = orig, 2000);
+            });
+        }
+    }
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        document.querySelectorAll('section[id]').forEach(section => {
+            if (window.scrollY >= section.offsetTop - 150) current = section.getAttribute('id');
+        });
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+        });
+    });
+
+    Prism.highlightAll();
+</script>
+</body>
+</html>
